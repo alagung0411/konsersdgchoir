@@ -1,0 +1,84 @@
+# ========================
+
+# 🔐 ENV (WAJIB)
+
+# ========================
+
+.env
+.env.*
+
+# ========================
+
+# 🐍 PYTHON / FLASK
+
+# ========================
+
+**pycache**/
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+env/
+.venv/
+
+instance/
+
+# ========================
+
+# 🗄️ DATABASE (LOCAL ONLY)
+
+# ========================
+
+*.db
+*.sqlite3
+
+# ========================
+
+# 📂 UPLOAD FILES (PENTING)
+
+# ========================
+
+static/uploads/
+uploads/
+
+# ========================
+
+# 📦 NODE (Frontend React/Next)
+
+# ========================
+
+node_modules/
+.next/
+dist/
+build/
+
+# ========================
+
+# 🖥️ OS & EDITOR
+
+# ========================
+
+.DS_Store
+Thumbs.db
+
+.vscode/
+.idea/
+
+# ========================
+
+# 📊 LOG & CACHE
+
+# ========================
+
+*.log
+.cache/
+coverage/
+
+# ========================
+
+# 🔑 SECRET FILE (optional)
+
+# ========================
+
+config.py

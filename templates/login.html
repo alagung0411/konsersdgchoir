@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Konser Paduan Suara - Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: linear-gradient(to right, #001f3f, #003366);
+      margin: 0;
+      color: #fff;
+    }
+
+    .wrapper {
+      display: flex;
+      width: 90%;
+      max-width: 1100px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0px 6px 25px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 1s ease-out;
+      color: #333;
+    }
+
+    .welcome-section {
+      flex: 2;
+      background: linear-gradient(to bottom right, #002B5B, #003366);
+      color: #FFD700;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      text-align: center;
+    }
+
+    .welcome-section h1 {
+      font-size: 36px;
+      margin: 10px 0;
+      font-weight: 600;
+    }
+
+    .welcome-section span {
+      font-style: italic;
+      color: #FFD700;
+    }
+
+    .welcome-section .logo img {
+      width: 300px;
+      margin-top: 30px;
+    }
+
+    .login-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px;
+      animation: slideIn 0.8s ease-in-out;
+    }
+
+    .login-section h2 {
+      font-size: 28px;
+      margin-bottom: 10px;
+      color: #002B5B;
+      text-align: center;
+    }
+
+    .login-section p {
+      font-size: 14px;
+      color: #555;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .login-section a {
+      color: #FFD700;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .login-section form {
+        max-width: 200px;
+        margin: 10px;
+        width: 100%;
+      }
+      
+
+    .form-group {
+      position: relative;
+      margin-bottom: 20px;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 40px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .form-group .icon-left,
+    .form-group .icon-right {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #555;
+    }
+
+    .icon-left {
+      left: 12px;
+    }
+
+    .icon-right {
+      right: -70px;
+      cursor: pointer;
+    }
+    .btn {
+        width: 200px; /* Tetap berukuran tetap */
+        display: block;
+        margin-left: 40px; /* Dorong ke kanan */
+        margin-right: 0; /* Tambahkan jika diperlukan */
+        padding: 12px;
+        background: linear-gradient(to right, #002B5B, #FFD700);
+        color: #fff;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.3s ease;
+      }
+      
+      
+    .btn:hover {
+      transform: scale(1.05);
+      background: linear-gradient(to right, #001a33, #e6c200);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 20px;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      0% {
+        transform: translateX(30px);
+        opacity: 0;
+      }
+      100% {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="welcome-section">
+      <h1>Selamat Datang di</h1>
+      <h1><span>Konser Paduan Suara</span></h1>
+      <div class="logo">
+        <a href="https://swaradarmagita.com" target="_blank">
+          <img src="{{ url_for('static', filename='logo_sdg.png') }}" alt="Choir Logo">
+        </a>
+      </div>
+    </div>
+
+    <div class="login-section">
+      <h2>Login Pemesan</h2>
+      <p>Silakan masuk untuk mendapatkan tiket konser Anda</p>
+      <p>Belum punya akun? <a href="/signup">Daftar di sini</a></p>
+
+
+      <form method="POST" action="/login">
+        <div class="form-group">
+          <i class="fas fa-user icon-left"></i>
+          <input type="text" name="username" placeholder="Nama Pengguna" required>
+        </div>
+        <div class="form-group">
+          <i class="fas fa-lock icon-left"></i>
+          <i id="toggle-password" class="fas fa-eye icon-right" onclick="togglePassword()"></i>
+          <input type="password" name="password" id="password" placeholder="Kata Sandi" required>
+        </div>
+        <button type="submit" class="btn">Masuk</button>
+      </form>
+
+      <p style="margin-top: 10px;">
+        <a href="/forgot" style="color: gold; text-decoration: none;">Lupa Password?</a>
+      </p>
+
+      <div class="footer">© 2025 Konser Swara Darmagita. All rights reserved.</div>
+    </div>
+  </div>
+
+  <script>
+    function togglePassword() {
+      const passwordInput = document.getElementById('password');
+      const toggleIcon = document.getElementById('toggle-password');
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        toggleIcon.classList.remove('fa-eye');
+        toggleIcon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        toggleIcon.classList.remove('fa-eye-slash');
+        toggleIcon.classList.add('fa-eye');
+      }
+    }
+  </script>
+</body>
+</html>

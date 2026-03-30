@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home Konser</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #001f3f, #004080);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .navbar {
+      width: 100%;
+      padding: 10px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+    .navbar .left, .navbar .center, .navbar .right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .navbar .left { justify-content: flex-start; }
+    .navbar .right { justify-content: flex-end; }
+    .contact-us {
+      color: gold;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .logo img {
+      height: 45px;
+    }
+    .carousel-container {
+      position: relative;
+      width: 90%;
+      max-width: 1000px;
+      margin: 20px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+      height: 300px;
+    }
+    .carousel {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+      height: 100%;
+    }
+    .carousel img {
+      width: 100%;
+      height: 300px;
+      flex-shrink: 0;
+      object-fit: cover;
+    }
+    .carousel-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(255, 215, 0, 0.7);
+      border: none;
+      padding: 10px;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 10;
+      border-radius: 50%;
+      color: #001f3f;
+    }
+    .carousel-button.left { left: 10px; }
+    .carousel-button.right { right: 10px; }
+    .concert-box {
+      background-color: rgba(255, 255, 255, 0.9);
+      color: #001f3f;
+      width: 90%;
+      max-width: 700px;
+      margin: 30px auto;
+      padding: 30px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+    .concert-box h2 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #004080;
+    }
+    .concert-box p {
+      font-size: 16px;
+      color: #333;
+      margin-bottom: 25px;
+    }
+    .btn {
+      padding: 12px 25px;
+      background: linear-gradient(to right, gold, #ffcc00);
+      color: #001f3f;
+      border: none;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn:hover { transform: scale(1.05); }
+    .chatbot-container {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 320px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      font-family: 'Poppins', Arial, sans-serif;
+    }
+    .chatbot-header {
+      background: #007bff;
+      color: white;
+      padding: 10px;
+      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+    .chatbot-messages {
+      padding: 10px;
+      height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+      background: #f9f9f9;
+    }
+    .chatbot-messages .user-message {
+      text-align: right;
+      margin: 5px 0;
+      padding: 8px;
+      background: #007bff;
+      color: white;
+      border-radius: 8px;
+      max-width: 80%;
+      margin-left: auto;
+    }
+    .chatbot-messages .bot-message {
+      text-align: left;
+      margin: 5px 0;
+      padding: 8px;
+      background: #e0e0e0;
+      color: #333;
+      border-radius: 8px;
+      max-width: 80%;
+      margin-right: auto;
+    }
+    .chatbot-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    .chatbot-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+      border-bottom-left-radius: 10px;
+      outline: none;
+    }
+    .chatbot-input button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      cursor: pointer;
+      border-bottom-right-radius: 10px;
+    }
+    .chatbot-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <div class="left">
+    <div class="contact-us" onclick="window.location.href='https://wa.me/6281398375062'">Hubungi Kami</div>
+  </div>
+  <div class="center">
+    <div class="logo">
+      <a href="https://swaradarmagita.com" target="_blank">
+        <img src="{{ url_for('static', filename='logo_sdg.png') }}" alt="Choir Logo">
+      </a>
+    </div>
+  </div>
+  <div class="right">
+    <a href="/setting">
+      <a href="/setting" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+        <img src="{{ avatar or url_for('static', filename='profile.jpg') }}" alt="Profile" style="border-radius: 50%; height: 45px; cursor: pointer;">
+        <span style="color: #007bff; font-weight: bold;">Profil</span>
+      </a>
+        </div>
+</div>
+
+<!-- CAROUSEL -->
+{% if konser_list %}
+<div class="carousel-container">
+  <button class="carousel-button left" onclick="moveCarousel(-1)">❮</button>
+  <div class="carousel" id="carousel">
+    {% for konser in konser_list %}
+    <img src="{{ url_for('static', filename='konser' ~ loop.index ~ '.jpg') }}" alt="Concert {{ loop.index }}">
+    {% endfor %}
+  </div>
+  <button class="carousel-button right" onclick="moveCarousel(1)">❯</button>
+</div>
+
+<!-- BOX DESKRIPSI KONSER -->
+{% for konser in konser_list %}
+<div class="concert-box">
+  <h2>{{ konser.judul }}</h2>
+  <p>
+    {{ konser.deskripsi }}<br>
+    Konser ini akan digelar pada <strong>{{ konser.tanggal }}</strong> di <strong>{{ konser.lokasi }}</strong>.
+  </p>
+  <a href="/seat" class="btn">Pilih Kursi</a>
+</div>
+{% endfor %}
+{% else %}
+<p style="margin-top: 50px;">Belum ada konser tersedia saat ini.</p>
+{% endif %}
+
+<!-- Chatbot -->
+<div id="chatbot-container" class="chatbot-container">
+  <div class="chatbot-header">
+    Chatbot Tiket Konser 🎤
+    <span onclick="closeChatbot()" style="cursor: pointer;">×</span>
+  </div>
+  <div id="chatbot-messages" class="chatbot-messages"></div>
+  <div class="chatbot-input">
+    <input type="text" id="chatbot-input" placeholder="Tulis pesan..." onkeypress="handleKeyPress(event)">
+    <button onclick="sendChatbotMessage()">Kirim</button>
+  </div>
+</div>
+
+<!-- Tombol Buka Chatbot -->
+<button class="chatbot-button" onclick="openChatbot()">💬</button>
+
+<script>
+  let isSending = false;
+
+  async function loadChatHistory() {
+    console.log("Loading chat history");
+    try {
+      const response = await fetch('/api/chat/history', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const data = await response.json();
+      if (response.ok) {
+        const messageContainer = document.getElementById('chatbot-messages');
+        messageContainer.innerHTML = ''; // Clear existing messages
+        data.messages.forEach(msg => {
+          const messageClass = msg.sender === 'user' ? 'user-message' : 'bot-message';
+          messageContainer.innerHTML += `<div class="${messageClass}"><strong>${msg.sender === 'user' ? 'Anda' : 'Bot'}:</strong> ${msg.message}</div>`;
+        });
+        messageContainer.scrollTop = messageContainer.scrollHeight;
+      } else {
+        console.error("Failed to load chat history:", data.error);
+      }
+    } catch (error) {
+      console.error("Error loading chat history:", error);
+    }
+  }
+
+  function openChatbot() {
+    console.log("Opening chatbot");
+    document.getElementById('chatbot-container').style.display = 'flex';
+    loadChatHistory(); // Load history when opening
+  }
+
+  function closeChatbot() {
+    console.log("Closing chatbot");
+    document.getElementById('chatbot-container').style.display = 'none';
+  }
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      sendChatbotMessage();
+    }
+  }
+
+  async function sendChatbotMessage() {
+    if (isSending) {
+      console.log("Send in progress, ignoring");
+      return;
+    }
+    isSending = true;
+
+    const input = document.getElementById('chatbot-input');
+    const message = input.value.trim();
+    if (!message) {
+      console.log("No message entered");
+      isSending = false;
+      return;
+    }
+
+    const messageContainer = document.getElementById('chatbot-messages');
+    messageContainer.innerHTML += `<div class="user-message"><strong>Anda:</strong> ${message}</div>`;
+    input.value = '';
+    messageContainer.scrollTop = messageContainer.scrollHeight;
+    console.log("User message sent:", message);
+
+    try {
+      console.log("Sending request to /api/chat");
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ message: message })
+      });
+
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      if (response.ok) {
+        messageContainer.innerHTML += `<div class="bot-message"><strong>Bot:</strong> ${data.reply}</div>`;
+      } else {
+        messageContainer.innerHTML += `<div class="bot-message"><strong>Bot:</strong> Error - ${data.error || 'Tidak ada respons dari server.'}</div>`;
+      }
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    } catch (error) {
+      console.error("Fetch error:", error);
+      messageContainer.innerHTML += `<div class="bot-message"><strong>Bot:</strong> Gagal terhubung ke server.</div>`;
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+
+    isSending = false;
+  }
+
+  // Auto-scroll carousel every 5 seconds
+  let currentIndex = 0;
+  const carousel = document.getElementById('carousel');
+  const images = carousel ? carousel.getElementsByTagName('img') : [];
+  const totalImages = images.length;
+
+  function moveCarousel(direction) {
+    if (totalImages === 0) return;
+    currentIndex = (currentIndex + direction + totalImages) % totalImages;
+    carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+  }
+
+  if (totalImages > 0) {
+    setInterval(() => moveCarousel(1), 5000);
+  }
+</script>
+</body>
+</html>

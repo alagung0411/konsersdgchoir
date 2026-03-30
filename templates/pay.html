@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Halaman Pembayaran</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to bottom, #001f3f, #004080);
+      color: white;
+      padding: 20px;
+    }
+
+    .payment-box {
+      background: white;
+      color: #001f3f;
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+    }
+
+    h2, h3 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    .payment-box p {
+      margin: 8px 0;
+    }
+
+    .highlight {
+      font-weight: bold;
+      color: #004080;
+    }
+
+    input[type="email"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      background: linear-gradient(to right, gold, #ffcc00);
+      border: none;
+      padding: 12px;
+      border-radius: 50px;
+      font-weight: bold;
+      width: 100%;
+      cursor: pointer;
+      color: #001f3f;
+    }
+
+    #preview {
+      max-width: 100%;
+      margin-top: 10px;
+      border-radius: 10px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .payment-box {
+        padding: 15px;
+      }
+
+      h2, h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="payment-box">
+    <h2>Konfirmasi Pembayaran</h2>
+    <h3>{{ judul_konser }}</h3>
+
+    <form method="POST" action="/pay" enctype="multipart/form-data">
+      <p>Nama: <span class="highlight">{{ username }}</span></p>
+      <p>Email:</p>
+      <input type="email" name="email" value="{{ email }}" required>
+
+      <p>Kursi: <span class="highlight">{{ seats }}</span></p>
+      <p>Jumlah Tiket: <span class="highlight">{{ jumlah }}</span></p>
+      <p>Total Harga: <span class="highlight">Rp {{ total }}</span></p>
+      <p>Nomor Virtual Account: <span class="highlight">1234567890123456</span></p>
+
+      <label for="bukti">Upload Bukti Transfer</label>
+      <input type="file" name="bukti" id="bukti" accept="image/*" required>
+
+      <img id="preview" src="#" alt="Preview Bukti Transfer"/>
+
+      <button type="submit">Saya Sudah Membayar</button>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('bukti').addEventListener('change', function () {
+      const file = this.files[0];
+      if (file) {
+        const preview = document.getElementById('preview');
+        preview.src = URL.createObjectURL(file);
+        preview.style.display = 'block';
+      }
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediksi Tiket Habis</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #001f3f, #004080);
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        h1 {
+            text-align: center;
+            color: gold;
+        }
+        .data {
+            font-size: 18px;
+            margin-top: 20px;
+        }
+        .highlight {
+            color: gold;
+            font-weight: bold;
+        }
+        .btn {
+            margin-top: 30px;
+            display: inline-block;
+            background-color: gold;
+            color: #001f3f;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background-color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 Prediksi Tiket Konser</h1>
+        <div class="data">
+            <p>Total Kapasitas: <span class="highlight">{{ kapasitas }}</span> tiket</p>
+            <p>Tiket yang sudah <span class="highlight">terjual</span>: <strong>{{ total_terjual }}</strong></p>
+            <p>Tiket yang masih <span class="highlight">tersisa</span>: <strong>{{ kapasitas - total_terjual }}</strong></p>
+            <br>
+            <p>Berdasarkan tren penjualan, diprediksi tiket akan habis pada:</p>
+            <h2 class="highlight">{{ prediksi_habis }}</h2>
+        </div>
+
+        <a href="/admin/dashboard" class="btn">⬅ Kembali ke Dashboard</a>
+    </div>
+</body>
+</html>

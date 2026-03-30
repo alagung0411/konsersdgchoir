@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Status Tiket</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #001f3f, #004080);
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .user-menu-box {
+      background-color: #ffffff;
+      color: #001f3f;
+      padding: 35px;
+      border-radius: 25px;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+      text-align: center;
+      max-width: 460px;
+      width: 90%;
+    }
+
+    .user-avatar {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      margin-bottom: 15px;
+      object-fit: cover;
+      border: 4px solid #ffcc00;
+    }
+
+    .username {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .ticket-section {
+      margin-top: 25px;
+      text-align: left;
+    }
+
+    .ticket-box {
+      background-color: #f0f0f0;
+      color: #001f3f;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+    }
+
+    .ticket-box strong {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .ticket-status {
+      font-weight: bold;
+      margin-top: 8px;
+    }
+
+    .download-btn {
+      background: #001f3f;
+      color: #fff;
+      padding: 10px 16px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      transition: 0.3s;
+    }
+
+    .download-btn:hover {
+      background: #003366;
+    }
+
+    .barcode-text {
+      font-family: monospace;
+      background: #e0e0e0;
+      padding: 8px;
+      border-radius: 8px;
+      margin-top: 8px;
+      display: inline-block;
+      font-size: 13px;
+      color: #001f3f;
+    }
+
+    .footer-info {
+      margin-top: 30px;
+      font-size: 12px;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="user-menu-box">
+    <img src="https://i.pravatar.cc/100" alt="Avatar User" class="user-avatar" />
+    <div class="username">Halo, {{ username }}</div>
+
+    <hr>
+
+    <div class="ticket-section">
+      <h3>Status Tiket Anda:</h3>
+
+      {% if tiket_data %}
+        {% for tiket in tiket_data %}
+          <div class="ticket-box">
+            <strong>🎵 {{ tiket.concert_name }}</strong>
+            <div><strong>Kursi:</strong> {{ tiket.seat_code }}</div>
+            <div><strong>Tanggal:</strong> {{ tiket.tanggal }}</div>
+            <div><strong>Lokasi:</strong> {{ tiket.lokasi }}</div>
+            <div class="ticket-status">
+              Status: 
+              {% if tiket.status == 'lunas' %}
+                <span style="color: green;">✔ Approved</span>
+              {% elif tiket.status == 'menunggu verifikasi' %}
+                <span style="color: orange;">⏳ Menunggu Verifikasi</span>
+              {% else %}
+                <span style="color: red;">❌ Belum Dibayar</span>
+              {% endif %}
+            </div>
+
+            {% if tiket.status == 'lunas' %}
+              <div class="barcode-text">{{ tiket.barcode }}</div>
+              <br>
+              <a href="{{ url_for('tiket_qr_individual', ticket_id=tiket._id) }}">
+                <button class="download-btn">🎫 QR Tiket</button>
+              </a>
+            {% endif %}
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Anda belum memesan tiket.</p>
+      {% endif %}
+    </div>
+
+    <div class="footer-info">
+      © 2025 Tim Tiket Konser Swara Darmagita
+    </div>
+  </div>
+
+</body>
+</html>

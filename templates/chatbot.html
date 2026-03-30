@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chatbot Tiket Konser</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      margin: 0;
+      padding: 0;
+    }
+    #chatbox {
+      width: 100%;
+      max-width: 600px;
+      margin: 50px auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+    }
+    .chat {
+      margin: 10px 0;
+    }
+    .user { text-align: right; }
+    .ai { text-align: left; color: #333; }
+    #inputArea {
+      display: flex;
+      margin-top: 20px;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      font-size: 16px;
+    }
+    #sendBtn {
+      padding: 10px 20px;
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #sendBtn:hover {
+      background: #0056b3;
+    }
+    #messages {
+      max-height: 400px;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+
+<div id="chatbox">
+  <h2>Chatbot Tiket Konser</h2>
+  <div id="messages"></div>
+
+  <div id="inputArea">
+    <input type="text" id="userInput" placeholder="Tulis pesan...">
+    <button id="sendBtn">Kirim</button>
+  </div>
+</div>
+
+<script>
+  const sendBtn = document.getElementById('sendBtn');
+  const userInput = document.getElementById('userInput');
+  const messages = document.getElementById('messages');
+
+  async function sendMessage() {
+    const input = userInput.value.trim();
+    if (!input) {
+      console.log("No input provided");
+      return;
+    }
+
+    // Tampilkan pesan pengguna
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat user';
+    userMsg.textContent = "Kamu: " + input;
+    messages.appendChild(userMsg);
+    userInput.value = '';
+    messages.scrollTop = messages.scrollHeight;
+
+    // Tampilkan "Sedang mengetik..."
+    const botMsg = document.createElement('div');
+    botMsg.className = 'chat ai';
+    botMsg.textContent = "Bot: sedang mengetik...";
+    messages.appendChild(botMsg);
+    messages.scrollTop = messages.scrollHeight;
+
+    // Panggil backend Flask
+    try {
+      console.log("Sending request to backend with message:", input);
+      const response = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ message: input })
+      });
+
+      console.log("Response status:", response.status);
+      const data = await response.json();
+      console.log("Response data:", data);
+
+      if (response.ok) {
+        botMsg.textContent = "Bot: " + data.reply;
+      } else {
+        botMsg.textContent = "Bot: Error - " + (data.error || "Tidak ada respons dari server.");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+      botMsg.textContent = "Bot: Maaf, terjadi kesalahan. Pastikan server berjalan.";
+    }
+
+    messages.scrollTop = messages.scrollHeight;
+  }
+
+  sendBtn.addEventListener('click', function() {
+    console.log("Send button clicked");
+    sendMessage();
+  });
+  userInput.addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      console.log("Enter key pressed");
+      sendMessage();
+    }
+  });
+</script>
+
+</body>
+</html>

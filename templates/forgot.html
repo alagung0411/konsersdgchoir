@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ganti Sandi</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #001f3f, #004080);
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .form-container {
+      background-color: white;
+      color: #001f3f;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      text-align: center;
+      max-width: 400px;
+      width: 90%;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    .btn {
+      background: linear-gradient(to right, gold, #ffcc00);
+      color: #001f3f;
+      border: none;
+      padding: 12px 20px;
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      border-radius: 30px;
+      cursor: pointer;
+      width: 100%;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background: #ffd700;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .success-message {
+      color: green;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .error-message {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <h2>Ganti Sandi</h2>
+
+    <!-- Form Email -->
+    <div id="email-form">
+      <input type="email" id="email" placeholder="Masukkan Email Anda" required />
+      <button class="btn" onclick="cekEmail()">Lanjutkan</button>
+      <div id="email-error" class="error-message hidden"></div>
+    </div>
+
+    <!-- Form Ganti Sandi -->
+    <div id="password-form" class="hidden">
+      <input type="password" id="new-password" placeholder="Sandi Baru" required />
+      <input type="password" id="confirm-password" placeholder="Konfirmasi Sandi" required />
+      <button class="btn" onclick="gantiSandi()">Simpan Sandi</button>
+      <div id="password-error" class="error-message hidden"></div>
+    </div>
+
+    <div id="success" class="success-message hidden">Sandi berhasil diubah!</div>
+  </div>
+
+  <script>
+    async function cekEmail() {
+      const email = document.getElementById("email").value;
+      const emailError = document.getElementById("email-error");
+
+      // Reset error message
+      emailError.classList.add("hidden");
+      emailError.textContent = "";
+
+      if (!email) {
+        emailError.textContent = "Email tidak boleh kosong.";
+        emailError.classList.remove("hidden");
+        return;
+      }
+
+      try {
+        // Send request to backend to check if email exists
+        const response = await fetch('/api/check-email', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.exists) {
+          document.getElementById("email-form").classList.add("hidden");
+          document.getElementById("password-form").classList.remove("hidden");
+        } else {
+          emailError.textContent = result.message || "Email tidak ditemukan.";
+          emailError.classList.remove("hidden");
+        }
+      } catch (error) {
+        emailError.textContent = "Terjadi kesalahan. Silakan coba lagi.";
+        emailError.classList.remove("hidden");
+        console.error('Error checking email:', error);
+      }
+    }
+
+    async function gantiSandi() {
+      const email = document.getElementById("email").value;
+      const pass1 = document.getElementById("new-password").value;
+      const pass2 = document.getElementById("confirm-password").value;
+      const passwordError = document.getElementById("password-error");
+
+      // Reset error message
+      passwordError.classList.add("hidden");
+      passwordError.textContent = "";
+
+      if (pass1 === "" || pass2 === "") {
+        passwordError.textContent = "Sandi tidak boleh kosong.";
+        passwordError.classList.remove("hidden");
+        return;
+      }
+
+      if (pass1 !== pass2) {
+        passwordError.textContent = "Konfirmasi sandi tidak cocok.";
+        passwordError.classList.remove("hidden");
+        return;
+      }
+
+      try {
+        // Send request to backend to update password
+        const response = await fetch('/api/change-password', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, newPassword: pass1 }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          document.getElementById("password-form").classList.add("hidden");
+          document.getElementById("success").classList.remove("hidden");
+        } else {
+          passwordError.textContent = result.message || "Gagal mengubah sandi.";
+          passwordError.classList.remove("hidden");
+        }
+      } catch (error) {
+        passwordError.textContent = "Terjadi kesalahan. Silakan coba lagi.";
+        passwordError.classList.remove("hidden");
+        console.error('Error changing password:', error);
+      }
+    }
+  </script>
+
+</body>
+</html>

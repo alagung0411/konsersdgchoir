@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Detail Tiket {{ judul }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #001f3f;
+            color: white;
+        }
+        h3 {
+            color: gold;
+        }
+        .table {
+            background-color: #fff;
+            color: #001f3f;
+        }
+        .table th {
+            background-color: gold;
+            color: #001f3f;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center">Detail Tiket: {{ judul }}</h3>
+        <table class="table table-striped mt-4">
+            <thead>
+                <tr>
+                    <th>Email Pembeli</th>
+                    <th>Status</th>
+                    <th>Nomor Kursi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for tiket in tiket_list %}
+                <tr>
+                    <td>{{ tiket.email }}</td>
+                    <td>{{ tiket.status }}</td>
+                    <td>{{ tiket.seat_code }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="/admin/laporan" class="btn btn-secondary mt-4">← Kembali ke Laporan</a>
+    </div>    
+</div>
+</body>
+</html>
