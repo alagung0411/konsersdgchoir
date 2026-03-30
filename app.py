@@ -12,6 +12,7 @@ from collections import defaultdict
 from flask_cors import CORS
 
 import os
+
 import io
 import pickle
 import numpy as np
@@ -29,6 +30,9 @@ from config import Config
 # 🚀 INIT APP
 # ========================
 app = Flask(__name__)
+
+port = int(os.environ.get("PORT", 5000))
+app.run(host="0.0.0.0", port=port)
 
 app.config["MONGO_URI"] = Config.MONGO_URI
 app.config["SECRET_KEY"] = Config.SECRET_KEY
@@ -496,7 +500,7 @@ def home():
                            konser_list=konser_list)
 
 
-import os
+
 from dotenv import load_dotenv
 import openai
 from flask_cors import CORS
