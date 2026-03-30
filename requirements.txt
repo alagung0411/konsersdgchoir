@@ -1,6 +1,10 @@
 flask
 flask-cors
-python-dotenv
 pymongo
-openai
+werkzeug
 numpy
+pandas
+Pillow
+scikit-learn
+qrcode
+openai
