@@ -8,4 +8,5 @@ Pillow
 scikit-learn
 qrcode
 openai
+python-dotenv
 joblib
