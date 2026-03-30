@@ -50,9 +50,8 @@ konserr = db["konserr"]
 chats = db["chats"]
 
 
-# Konfigurasi folder upload
-UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+UPLOAD_FOLDER = '/tmp'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True) # WAJIB ADA
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # ==================== ROUTES ====================
