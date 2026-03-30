@@ -31,8 +31,6 @@ from config import Config
 # ========================
 app = Flask(__name__)
 
-port = int(os.environ.get("PORT", 5000))
-app.run(host="0.0.0.0", port=port)
 
 app.config["MONGO_URI"] = Config.MONGO_URI
 app.config["SECRET_KEY"] = Config.SECRET_KEY
@@ -505,19 +503,6 @@ from dotenv import load_dotenv
 import openai
 from flask_cors import CORS
 
-# Load environment variables
-load_dotenv()
-
-# Ambil API key dari .env
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
-# Validasi kalau belum di-set
-if not openai.api_key:
-    raise ValueError("OPENAI_API_KEY environment variable not set")
-
-# Enable CORS
-CORS(app)
-
 CHATBOT_TEMPLATES = {
     'halo': 'Halo juga! Ada yang bisa saya bantu terkait tiket konser?',
     'hai': 'Hai! Apa kabar? Ingin tahu tentang konser atau cara beli tiket?',
@@ -951,4 +936,5 @@ def mark_present():
 # ==================== MAIN ====================
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
