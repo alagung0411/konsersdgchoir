@@ -32,8 +32,8 @@ from config import Config
 app = Flask(__name__)
 
 
-app.config["MONGO_URI"] = Config.MONGO_URI
-app.config["SECRET_KEY"] = Config.SECRET_KEY
+app.config["MONGO_URI"] = os.getenv("MONGO_URI", Config.MONGO_URI)
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", Config.SECRET_KEY)
 app.permanent_session_lifetime = timedelta(days=7)
 
 CORS(app)
